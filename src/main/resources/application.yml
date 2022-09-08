@@ -1,0 +1,44 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: sfbest
+  datasource:
+#    gfmDb:
+#      url: jdbc:mysql://192.168.116.160:3306/gfm_db?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useUnicode=true&serverTimezone=Asia/Shanghai
+#      username: sf_fms_all
+#      password: yjBRYdshPm6PPYPiBYJ&
+#    gshop:
+#      url: jdbc:mysql://192.168.116.159:3306/gshop_db?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#      username: sf_corp_all
+#      password: qGEt5nHBmytpE1QsJ2DE
+#    gstore:
+#      url: jdbc:mysql://192.168.116.159:3306/gstore_db?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#      username: root
+#      password: qGEt5nHBmytpE1QsJ2DE
+
+    gfm-db:
+      jdbc-url: jdbc:mysql://localhost:3306/gfm_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456?
+    gshop:
+      jdbc-url: jdbc:mysql://localhost:3306/gshop_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456?
+    gstore:
+      jdbc-url: jdbc:mysql://localhost:3306/gstore_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456?
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:com/**/mapper/*.xml
+logging:
+  level:
+    root: info
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

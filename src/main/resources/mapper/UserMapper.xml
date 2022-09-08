@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfbest.optimize.batch.mapper.db1.UserMapper">
+  <resultMap id="BaseResultMap" type="com.sfbest.optimize.batch.model.TUser">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="USER_TYPE" jdbcType="TINYINT" property="userType" />
+    <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+    <result column="USER_PROFILE_PHOTO" jdbcType="VARCHAR" property="userProfilePhoto" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="lOGIN_TIME" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="RMK" jdbcType="VARCHAR" property="rmk" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, USER_NAME, ACCOUNT, PASSWORD, USER_TYPE, USER_EMAIL, USER_PROFILE_PHOTO, USER_PHONE, 
+    CREATE_TIME, lOGIN_TIME, RMK, STATUS
+  </sql>
+  <select id="select" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+  </select>
+</mapper>

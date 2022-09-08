@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sfbest.optimize.batch.mapper.db2.GshopOrderMapper">
+    <!--实体映射-->
+    <resultMap id="gshopOrderResultMap" type="com.sfbest.optimize.batch.model.GshopOrderModel">
+        <result property="orderId" column="order_id"/>
+        <result property="id" column="id"/>
+        <result property="orderSn" column="order_sn"/>
+        <result property="payId" column="pay_id"/>
+        <result property="orderAmount" column="order_amount"/>
+        <result property="productAmount" column="product_amount"/>
+        <result property="discount" column="discount"/>
+        <result property="balance" column="balance"/>
+        <result property="moneyPaid" column="money_paid"/>
+        <result property="couponMoney" column="coupon_money"/>
+        <result property="giftCardMoney" column="gift_card_money"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="shippingTime" column="shipping_time"/>
+        <result property="receivedTime" column="received_time"/>
+        <result property="couponId" column="coupon_id"/>
+        <result property="shippingFee" column="shipping_fee"/>
+        <result property="orderStatus" column="order_status"/>
+        <!-- add -->
+        <result property="parentOrderId" column="parent_order_id"/>
+        <result property="parentOrderSn" column="parent_order_sn"/>
+        <result property="payFee" column="pay_fee"/>
+        <result property="integralMoney" column="integral_money"/>
+        <result property="addTime" column="add_time"/>
+        <result property="onlinePlat" column="online_plat"/>
+        <result property="userId" column="user_id"/>
+        <result property="storeCode" column="store_code"/>
+        <result property="orderBelong" column="order_belong"/>
+
+        <result property="storeCode" column="store_code"/>
+        <result property="payWorkCode" column="pay_work_code"/>
+        <result property="payStoreCode" column="pay_store_code"/>
+        <result property="userMdid" column="user_mdid"/>
+        <result property="orderBelongMdid" column="order_belong_mdid"/>
+        <result property="orderBelongHbid" column="order_belong_hbid"/>
+        <result property="storeManagerCode" column="store_manager_code"/>
+        <result property="couponType" column="coupon_type"/>
+        <!--2016-09-01 add-->
+        <result property="orderSource" column="order_source"/>
+        <result property="orderType" column="order_type"/>
+        <result property="warehouseSn" column="warehouse_sn"/>
+        <result property="opencityId" column="opencity_id"/>
+        <result property="outerId" column="outer_id"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="district" column="district"/>
+        <result property="areaNumber" column="area_number"/>
+        <result property="giftCard" column="gift_card"/>
+        <result property="orderSort" column="order_sort"/>
+        <result column="shipping_sn" property="shippingSn"></result>
+
+        <result property="resourceSn" column="resource_sn"/>
+        <result property="returnType" column="return_type"/>
+        <result property="shippingId" column="shipping_id"/>
+
+        <!-- 2018-12-19 mealCard -->
+        <result column="mealcard_bukrs" property="mealcardBukrs"/>
+        <result column="merchant_number" property="merchantNumber"/>
+        <result column="mealcard_money" property="mealcardMoney"/>
+        <result column="rufund_mealcard_money" property="rufundMealcardMoney"/>
+        <result column="cash" property="cash"/>
+        <result column="inner_staff_no" property="innerStaffNo"/>
+        <result column="warehouse_store_code" property="warehouseStoreCode"/>
+    </resultMap>
+    <select id="queryChannelSalesOrder" parameterType="map" resultMap="gshopOrderResultMap">
+        select
+        oe.store_code,
+        o.order_sort,
+        o.order_source,
+        o.order_id,
+        o.order_sn,
+        oe.received_time,
+        o.order_amount,
+        o.shipping_fee,
+        o.discount,
+        o.coupon_money,
+        (IFNULL(i.sf_integral_money,0) + IFNULL(i.user_integral_money,0)) as integral_money
+        from gshop_order o
+        join gshop_order_ext oe on o.order_id = oe.order_id
+        LEFT JOIN gshop_order_integral i ON i.order_id = o.order_id
+        where 1 = 1
+        and o.order_source in (18,20,33)
+        and o.order_sort not in (2,7,8)
+        and oe.received_time &gt;=#{beginTime}
+        and oe.received_time &lt;=#{endTime}
+        AND oe.store_code IS NOT NULL
+    </select>
+
+    <select id="queryChannelRefuseOrder" parameterType="map" resultMap="gshopOrderResultMap">
+        select
+        oe.store_code,
+        o.order_sort,
+        o.order_source,
+        o.order_id,
+        r.refuse_sn as order_sn,
+        r.receipt_time as received_time,
+        o.order_amount,
+        o.shipping_fee,
+        o.discount,
+        o.coupon_money,
+        (IFNULL(i.sf_integral_money,0) + IFNULL(i.user_integral_money,0)) as integral_money
+        from gshop_order_refuse r
+        join gshop_order o on r.order_id = o.order_id
+        join gshop_order_ext oe on o.order_id = oe.order_id
+        LEFT JOIN gshop_order_integral i ON i.order_id = o.order_id
+        where 1 = 1
+        and r.status = 4
+        and o.order_source in (18,20,33)
+        and o.order_sort not in (2,7,8)
+        and r.receipt_time &gt;=#{beginTime}
+        and r.receipt_time &lt;=#{endTime}
+        AND oe.store_code IS NOT NULL
+    </select>
+
+    <select id="queryChannelReturnOrder" parameterType="map" resultMap="gshopOrderResultMap">
+        select
+        oe.store_code,
+        o.order_sort,
+        o.order_source,
+        o.order_id,
+        r.number as order_sn,
+        r.receipt_time as received_time,
+        r.product_amount - r.shipping_fee as order_amount,
+        r.shipping_fee,
+        r.coupon_activity as discount,
+        r.coupon_money,
+        r.sf_integral_fee + r.integral_fee as integral_money
+        from gshop_returns_news r
+        join gshop_order o on r.order_id = o.order_id
+        join gshop_order_ext oe on o.order_id = oe.order_id
+        where 1 = 1
+        and r.type = 1
+        and r.status = 4
+        and o.order_source in (18,20,33)
+        and o.order_sort not in (2,7,8)
+        and r.receipt_time &gt;=#{beginTime}
+        and r.receipt_time &lt;=#{endTime}
+        AND oe.store_code IS NOT NULL
+        union all
+        select
+        oe.store_code,
+        o.order_sort,
+        o.order_source,
+        o.order_id,
+        r.number as order_sn,
+        r.receipt_time as received_time,
+        r.product_amount - r.shipping_fee as order_amount,
+        r.shipping_fee,
+        r.coupon_activity as discount,
+        r.coupon_money,
+        r.sf_integral_fee + r.integral_fee as integral_money
+        from gshop_platform_return r
+        join gshop_order o on r.order_id = o.order_id
+        join gshop_order_ext oe on o.order_id = oe.order_id
+        where 1 = 1
+        and r.type = 1
+        and r.status = 4
+        and o.order_source in (18,20,33)
+        and o.order_sort not in (2,7,8)
+        and r.receipt_time &gt;=#{beginTime}
+        and r.receipt_time &lt;=#{endTime}
+        AND oe.store_code IS NOT NULL
+    </select>
+</mapper>

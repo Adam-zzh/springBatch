@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfbest.optimize.batch.mapper.db3.GfdChannelOrganizationMapper">
+    <resultMap id="BaseResultMap" type="com.sfbest.optimize.batch.model.GfdChannelOrganization">
+        <id column="id" property="id" />
+        <result column="store_code" property="storeCode" />
+        <result column="store_name" property="storeName" />
+        <result column="area_code" property="areaCode" />
+        <result column="area_name" property="areaName" />
+        <result column="company_code" property="companyCode" />
+        <result column="company_name" property="companyName" />
+        <result column="account_book_code" property="accountBookCode" />
+        <result column="add_time" property="addTime" />
+        <result column="sale_mode" property="saleMode" />
+        <result column="channel_status" property="channelStatus" />
+        <result column="city_id" property="cityId" />
+        <result column="city_name" property="cityName" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+       id,store_code,store_name,area_code,area_name,company_code,company_name,account_book_code,add_time,sale_mode,channel_status,city_id,city_name
+    </sql>
+
+    <select id="getChannelOrganizationByStoreCode" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from gfd_channel_organization
+        where 1=1
+        and is_delete=0
+        and store_code=#{storeCode}
+        limit 0,1
+    </select>
+
+    <select id="getCompanyName" resultMap="BaseResultMap" parameterType="map">
+        select
+        company_name
+        from gfd_channel_organization
+        where 1=1
+        and is_delete=0
+        and company_code=#{companyCode}
+        limit 0,1
+    </select>
+
+    <select id="queryOrganizationListByStoreCodes" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from gfd_channel_organization
+        where
+        store_code in (${storeCodes})
+    </select>
+
+    <select id="selectCompanyList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select company_name from gfd_channel_organization
+        where is_delete = 0
+        and company_name is not null
+        and company_name!= '三线员工虚拟架构'
+        and company_name!= '商业事业群营运部'
+        and company_name!= '商业事业群顺丰优选'
+        group by company_name
+    </select>
+
+    <select id="selectStoreList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select store_code from gfd_channel_organization
+        where is_delete = 0
+        and company_name = #{companyName}
+    </select>
+
+</mapper>

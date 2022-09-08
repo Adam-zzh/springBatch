@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfbest.optimize.batch.mapper.db1.GfmChannelCommissionDetailMapper">
+
+    <resultMap id="resultMap" type="com.sfbest.optimize.batch.model.GfmChannelCommissionDetail">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="store_summary_id" jdbcType="INTEGER" property="storeSummaryId"/>
+        <result column="voucher_summary_id" jdbcType="INTEGER" property="voucherSummaryId"/>
+        <result column="account_number" jdbcType="VARCHAR" property="accountNumber"/>
+        <result column="account_period" jdbcType="VARCHAR" property="accountPeriod"/>
+        <result column="channel_type" jdbcType="TINYINT" property="channelType"/>
+        <result column="sales_channel" jdbcType="TINYINT" property="salesChannel"/>
+        <result column="commission_type" jdbcType="TINYINT" property="commissionType"/>
+        <result column="company_code" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="store_code" jdbcType="VARCHAR" property="storeCode"/>
+        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+        <result column="sales_order_id" jdbcType="INTEGER" property="salesOrderId"/>
+        <result column="order_sn" jdbcType="VARCHAR" property="orderSn"/>
+        <result column="order_type" jdbcType="TINYINT" property="orderType"/>
+        <result column="order_time" jdbcType="INTEGER" property="orderTime"/>
+        <result column="sales_money" jdbcType="DECIMAL" property="salesMoney"/>
+        <result column="freight_money" jdbcType="DECIMAL" property="freightMoney"/>
+        <result column="discount_money" jdbcType="DECIMAL" property="discountMoney"/>
+        <result column="coupon_money" jdbcType="DECIMAL" property="couponMoney"/>
+        <result column="integral_money" jdbcType="DECIMAL" property="integralMoney"/>
+        <result column="actual_money" jdbcType="DECIMAL" property="actualMoney"/>
+        <result column="commission_rate" jdbcType="DECIMAL" property="commissionRate"/>
+        <result column="commission_money" jdbcType="DECIMAL" property="commissionMoney"/>
+        <result column="add_time" jdbcType="INTEGER" property="addTime"/>
+        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="columnList">
+        id, store_summary_id, voucher_summary_id, account_number, account_period, channel_type,
+        sales_channel, commission_type, company_code, company_name, store_code, store_name,
+        sales_order_id, order_sn, order_type, order_time, sales_money, freight_money, discount_money,
+        coupon_money, integral_money, actual_money, commission_rate, commission_money, add_time,
+        modified_time, is_deleted
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.sfbest.optimize.batch.model.GfmChannelCommissionDetail">
+        insert into gfm_channel_commission_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeSummaryId != null">
+                store_summary_id,
+            </if>
+            <if test="voucherSummaryId != null">
+                voucher_summary_id,
+            </if>
+            <if test="accountNumber != null">
+                account_number,
+            </if>
+            <if test="accountPeriod != null">
+                account_period,
+            </if>
+            <if test="channelType != null">
+                channel_type,
+            </if>
+            <if test="salesChannel != null">
+                sales_channel,
+            </if>
+            <if test="commissionType != null">
+                commission_type,
+            </if>
+            <if test="companyCode != null">
+                company_code,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="storeCode != null">
+                store_code,
+            </if>
+            <if test="storeName != null">
+                store_name,
+            </if>
+            <if test="salesOrderId != null">
+                sales_order_id,
+            </if>
+            <if test="orderSn != null">
+                order_sn,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="orderTime != null">
+                order_time,
+            </if>
+            <if test="salesMoney != null">
+                sales_money,
+            </if>
+            <if test="freightMoney != null">
+                freight_money,
+            </if>
+            <if test="discountMoney != null">
+                discount_money,
+            </if>
+            <if test="couponMoney != null">
+                coupon_money,
+            </if>
+            <if test="integralMoney != null">
+                integral_money,
+            </if>
+            <if test="actualMoney != null">
+                actual_money,
+            </if>
+            <if test="commissionRate != null">
+                commission_rate,
+            </if>
+            <if test="commissionMoney != null">
+                commission_money,
+            </if>
+            <if test="addTime != null">
+                add_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeSummaryId != null">
+                #{storeSummaryId,jdbcType=INTEGER},
+            </if>
+            <if test="voucherSummaryId != null">
+                #{voucherSummaryId,jdbcType=INTEGER},
+            </if>
+            <if test="accountNumber != null">
+                #{accountNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="accountPeriod != null">
+                #{accountPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="channelType != null">
+                #{channelType,jdbcType=TINYINT},
+            </if>
+            <if test="salesChannel != null">
+                #{salesChannel,jdbcType=TINYINT},
+            </if>
+            <if test="commissionType != null">
+                #{commissionType,jdbcType=TINYINT},
+            </if>
+            <if test="companyCode != null">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeCode != null">
+                #{storeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="storeName != null">
+                #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="salesOrderId != null">
+                #{salesOrderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderSn != null">
+                #{orderSn,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=TINYINT},
+            </if>
+            <if test="orderTime != null">
+                #{orderTime,jdbcType=INTEGER},
+            </if>
+            <if test="salesMoney != null">
+                #{salesMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="freightMoney != null">
+                #{freightMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="discountMoney != null">
+                #{discountMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="couponMoney != null">
+                #{couponMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="integralMoney != null">
+                #{integralMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="actualMoney != null">
+                #{actualMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionRate != null">
+                #{commissionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionMoney != null">
+                #{commissionMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="addTime != null">
+                #{addTime,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="existSalesCommistionDetail" parameterType="java.lang.Integer" resultMap="resultMap">
+        select
+        id
+        from gfm_channel_commission_detail
+        where 1 = 1
+        and is_deleted = 0
+        and order_type = 1
+        and sales_order_id = #{salesOrderId}
+    </select>
+
+</mapper>
